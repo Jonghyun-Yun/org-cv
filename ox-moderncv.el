@@ -57,6 +57,8 @@
     (:cvstyle "CVSTYLE" nil "classic" t)
     (:cvcolor "CVCOLOR" nil nil t)
     (:mobile "MOBILE" nil nil parse)
+    (:fixed "FIXED" nil nil parse)
+    (:fax "FAX" nil nil parse)
     (:homepage "HOMEPAGE" nil nil parse)
     (:address "ADDRESS" nil nil newline)
     (:photo "PHOTO" nil nil parse)
@@ -112,10 +114,18 @@ holding export options."
                        (org-export-data (plist-get info :email) info))))
        (when (org-string-nw-p email)
          (format "\\email{%s}\n" email)))
-     ;; phone
+     ;; mobile
      (let ((mobile (org-export-data (plist-get info :mobile) info)))
        (when (org-string-nw-p mobile)
          (format "\\phone[mobile]{%s}\n" mobile)))
+     ;; fixed
+     (let ((fixed (org-export-data (plist-get info :fixed) info)))
+       (when (org-string-nw-p fixed)
+         (format "\\phone[fixed]{%s}\n" fixed)))
+     ;; fax
+     (let ((fax (org-export-data (plist-get info :fax) info)))
+       (when (org-string-nw-p fax)
+         (format "\\phone[fax]{%s}\n" fax)))
      ;; homepage
      (let ((homepage (org-export-data (plist-get info :homepage) info)))
        (when (org-string-nw-p homepage)

@@ -36,10 +36,13 @@
 (unless (assoc "altacv" org-latex-classes)
   (add-to-list 'org-latex-classes
                '("altacv"
-                 "\\documentclass{altacv}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+                 "\\documentclass{altacv}
+[NO-DEFAULT-PACKAGES]
+[NO-PACKAGES]"
+                 ("\\cvsection{%s}" . "\\cvsection*{%s}")
+                 ("\\cvsubsection{%s}" . "\\cvsubsection*{%s}")
+                 ;; ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 )))
 
 
 ;;; User-Configurable Variables
@@ -64,27 +67,48 @@
     (:github "GITHUB" nil nil parse)
     (:linkedin "LINKEDIN" nil nil parse)
     (:with-email nil "email" t t)
-    (:latex-title-command nil nil "\\begin{fullwidth}\n\\makecvheader\n\\end{fullwidth}")
+    ;; (:latex-title-command nil nil "\\begin{fullwidth}\n\\makecvheader\n\\end{fullwidth}")
+    (:latex-title-command nil nil "\n\\makecvheader\n")
     )
   :translate-alist '((template . org-altacv-template)
                      (headline . org-altacv-headline)))
 
+;; (defun colorconf ()
+;;   "puts color"
+;;   "% Change the colours if you want to
+;; \\definecolor{VividPurple}{HTML}{009900}
+;; \\definecolor{SlateGrey}{HTML}{2E2E2E}
+;; \\definecolor{LightGrey}{HTML}{333333}
+;; \\colorlet{heading}{VividPurple}
+;; \\colorlet{accent}{VividPurple}
+;; \\colorlet{emphasis}{SlateGrey}
+;; \\colorlet{body}{LightGrey}
+;; \\hypersetup{
+;;  colorlinks=true,
+;;  urlcolor=olive!50!black!30!green,
+;;  }
+;; "
+;; )
+
 (defun colorconf ()
   "puts color"
-  "% Change the colours if you want to
+"% Change the colours if you want to
+\\definecolor{Sepia}{HTML}{704214}
 \\definecolor{VividPurple}{HTML}{009900}
+\\definecolor{Mulberry}{HTML}{72243D}
 \\definecolor{SlateGrey}{HTML}{2E2E2E}
-\\definecolor{LightGrey}{HTML}{333333}
-\\colorlet{heading}{VividPurple}
-\\colorlet{accent}{VividPurple}
-\\colorlet{emphasis}{SlateGrey}
-\\colorlet{body}{LightGrey}
+\\definecolor{LightGrey}{HTML}{666666}
+% \\colorlet{heading}{VividPurple}
+% \\colorlet{accent}{Mulberry}
+% \\colorlet{emphasis}{SlateGrey}
+% \\colorlet{body}{LightGrey}
 \\hypersetup{
  colorlinks=true,
  urlcolor=olive!50!black!30!green,
- }
+}
 "
 )
+
 ;;;; Template
 ;;
 ;; Template used is similar to the one used in `latex' back-end,
@@ -104,7 +128,7 @@ holding export options."
      (org-latex--insert-compiler info)
      ;; Document class and packages.
      (org-latex-make-preamble info)
-     (colorconf)
+     ;; (colorconf)
      ;; Possibly limit depth for headline numbering.
      (let ((sec-num (plist-get info :section-numbers)))
        (when (integerp sec-num)
@@ -158,16 +182,16 @@ holding export options."
        (when (org-string-nw-p homepage)
          (format "\\homepage{%s}\n" homepage)))
      (mapconcat (lambda (social-network)
-                  (let ((command (org-export-data (plist-get info
-                                                             (car social-network))
-                                                  info)))
-                    (and command (format "\\%s{%s}\n"
-                                         (nth 1 social-network)
-                                         command))))
+                  (let ((network (org-export-data
+                                  (plist-get info (car social-network)) info)))
+                    (when (org-string-nw-p network)
+                      (format "\\%s{%s}\n"
+                              (nth 1 social-network) network))))
                 '((:github "github")
                   (:gitlab "gitlab")
                   (:linkedin "linkedin"))
                 "")
+
      "}\n"
      ;; Title command.
      (let* ((title-command (plist-get info :latex-title-command))
@@ -186,7 +210,7 @@ holding export options."
      (and (plist-get info :with-creator)
           (concat (plist-get info :creator) "\n"))
      ;; Document end.
-     "\\end{document}")))
+     "\n\n\\end{document}")))
 
 
 (defun org-altacv--format-cventry (headline contents info)

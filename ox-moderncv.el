@@ -36,11 +36,12 @@
 (unless (assoc "moderncv" org-latex-classes)
   (add-to-list 'org-latex-classes
                '("moderncv"
-                 "\\documentclass{moderncv}"
+                 "\\documentclass{moderncv}
+[NO-DEFAULT-PACKAGES]
+[NO-PACKAGES]"
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
-
 
 ;;; User-Configurable Variables
 
@@ -204,6 +205,26 @@ as a communication channel."
             (alist-get 'location entry)
             note contents)))
 
+(defun org-moderncv--format-cvitem (headline contents info)
+  "Format HEADLINE as as cvitem.
+CONTENTS holds the contents of the headline.  INFO is a plist used
+as a communication channel."
+  (let* ((title (org-export-data (org-element-property :title headline) info))
+         )
+    (format "\\cvitem{%s}{%s}\n"
+            title contents)))
+
+(defun org-moderncv--format-cvitemwithcomment (headline contents info)
+  "Format HEADLINE as as cvitem.
+CONTENTS holds the contents of the headline.  INFO is a plist used
+as a communication channel."
+  (let* ((title (org-export-data (org-element-property :title headline) info))
+         (tag (org-export-data (org-element-property :tags headline) info))
+         )
+    (format "\\cvitemwithcomment{%s}{%s}{%s}\n"
+            title contents tag)))
+>>>>>>> d2c4b2f (remove default packages)
+
 ;;;; Headline
 (defun org-moderncv-headline (headline contents info)
   "Transcode HEADLINE element into moderncv code.
@@ -216,6 +237,10 @@ as a communication channel."
        ;; is a cv entry
        ((equal environment "cventry")
         (org-moderncv--format-cventry headline contents info))
+       ((equal environment "cvitem")
+        (org-moderncv--format-cvitem headline contents info))
+       ((equal environment "cvitemwithcomment")
+        (org-moderncv--format-cvitemwithcomment headline contents info))
        ((org-export-with-backend 'latex headline contents info))))))
 
 (provide 'ox-moderncv)

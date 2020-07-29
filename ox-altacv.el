@@ -217,22 +217,15 @@ holding export options."
   "Format HEADLINE as as cventry.
 CONTENTS holds the contents of the headline.  INFO is a plist used
 as a communication channel."
-  (let* ((title (org-export-data (org-element-property :title headline) info))
-         (from-date (or (org-element-property :FROM headline) ""))
-         (to-date (or (org-element-property :TO headline)))
-         (on-date (or (org-element-property :ON headline) ""))
-         (employer (org-element-property :EMPLOYER headline))
-         (location (or (org-element-property :LOCATION headline) ""))
+  (let* ((entry (org-cv-utils--parse-cventry headline info))
          (divider (if (org-export-last-sibling-p headline info) "\n" "\\divider")))
          (if (and (equal from-date "") (equal on-date "")) (error "No FROM or ON property provided for cventry %s" title))
     (format "\n\\cvevent{%s}{%s}{%s}{%s}%s\n%s"
-            title
-            employer
-            (if (equal from-date "")
-                on-date
-              (org-cv-utils--format-time-window from-date to-date))
-            location contents divider)))
-
+            (alist-get 'title entry)
+            (alist-get 'employer entry)
+            (org-cv-utils--format-time-window (alist-get 'from-date entry)
+                                              (alist-get 'to-date entry))
+            (alist-get 'location entry) contents divider)))
 
 ;;;; Headline
 (defun org-altacv-headline (headline contents info)

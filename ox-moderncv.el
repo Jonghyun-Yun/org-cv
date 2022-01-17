@@ -223,7 +223,6 @@ as a communication channel."
          )
     (format "\\cvitemwithcomment{%s}{%s}{%s}\n"
             title contents tag)))
->>>>>>> d2c4b2f (remove default packages)
 
 ;;;; Headline
 (defun org-moderncv-headline (headline contents info)

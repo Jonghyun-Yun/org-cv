@@ -182,11 +182,12 @@ holding export options."
        (when (org-string-nw-p homepage)
          (format "\\homepage{%s}\n" homepage)))
      (mapconcat (lambda (social-network)
-                  (let ((network (org-export-data
-                                  (plist-get info (car social-network)) info)))
-                    (when (org-string-nw-p network)
-                      (format "\\%s{%s}\n"
-                              (nth 1 social-network) network))))
+                  (let ((command (org-export-data (plist-get info
+                                                             (car social-network))
+                                                  info)))
+                    (and command (format "\\%s{%s}\n"
+                                         (nth 1 social-network)
+                                         command))))
                 '((:github "github")
                   (:gitlab "gitlab")
                   (:linkedin "linkedin"))

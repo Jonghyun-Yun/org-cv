@@ -189,7 +189,7 @@ holding export options."
                                          (nth 1 social-network)
                                          command))))
                 '((:github "github")
-                  (:gitlab "gitlab")
+                  ;; (:gitlab "gitlab")
                   (:linkedin "linkedin"))
                 "")
 

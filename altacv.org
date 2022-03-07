@@ -1,0 +1,11 @@
+#+LATEX_HEADER: \geometry{left=1cm,right=9cm,marginparwidth=6.8cm,marginparsep=1.2cm,top=1.25cm,bottom=1.25cm}
+
+#+include: basic_cv.org
+
+#+latex: \marginpar{
+
+#+include: sideactivities.org
+
+#+latex: }
+
+#+include: workcontent.org

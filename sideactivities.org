@@ -1,0 +1,19 @@
+* Main Interests
+- Free/Libre and Open Source Software (FLOSS)
+- Free food
+- Free beer
+
+* Programming
+- Python
+- C/C++
+- EmacsLisp
+- Bash
+- JavaScript
+- PHP
+
+* Languages
+
+- *English*  Fluent
+- *German*   Fluent
+- *Spanish*  Native
+- *French*   Intermediate

@@ -1,0 +1,10 @@
+# CV color - options include: 'awesome-red (default), 'awesome-emerald,
+# 'awesome-skyblue', 'awesome-pink', 'awesome-orange', 'awesome-nephritis',
+# 'awesome-concrete' and 'awesome-darknight', plus any standard color names.
+#+CVCOLOR: awesome-red
+# Specify the position and style of the photo
+#+PHOTOSTYLE: right,noedge
+
+#+include: basic_cv.org
+#+include: sideactivities.org
+#+include: workcontent.org

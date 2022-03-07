@@ -1,0 +1,26 @@
+* Employement
+** One job
+:PROPERTIES:
+:CV_ENV: cventry
+:FROM:     <2014-09-01>
+:TO:     <2017-12-07>
+:LOCATION: a city, a country
+:EMPLOYER: The employer
+:END:
+
+I write about awesome stuff I do.
+** Other job
+:PROPERTIES:
+:CV_ENV: cventry
+:FROM:     <2013-09-01>
+:TO:     <2014-08-07>
+:LOCATION: my city, your country
+:EMPLOYER: The other employer
+:END:
+
+I write about awesome stuff I do.
+
+* Other stuff I do
+- I work a lot
+- I sleep a lot
+- I eat a lot
